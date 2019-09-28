@@ -22,11 +22,11 @@ Once the project moves into development, the press release can be used as a touc
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-  > MTG players will have a digital platform in which to keep track of all the cards they have in their collection for quick and easy look ups
+  > MTG players will have a mobile platform in which to keep track of all the cards they have in their collection for quick and easy look ups.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
-  > Keeping track of all your cards is an impossible task. Have you ever wanted to know if you already have a card in your collection? How many of that card you have? And the prices associated with your collection? The MTG Tracker app solves all those problems all within the palm of your hand. This makes for quick and easy look ups so you don't have these pesky questions bothering you and you can get on with you day.
+  > Keeping track of all your cards is an impossible task. Have you ever wanted to know if you already have a card in your collection? How many of that card you have? And the prices associated with your collection? The MTG Tracker app solves all of those problems, and all within the palm of your hand. MTG Tracker makes for quick and easy look ups so you don't have these pesky questions bothering you and you can get on with you day.
 
 ## Problem ##
   > Describe the problem your product solves.
