@@ -5,8 +5,9 @@ CREATE DATABASE "cardCollection";
 \c "cardCollection";
 
 CREATE TABLE "cards" (
-  id            SERIAL PRIMARY KEY,
-  src           VARCHAR(100) NOT NULL
+  PrimaryID     SERIAL PRIMARY KEY,
+  name          VARCHAR(100) NOT NULL,
+  id            VARCHAR(100) NOT NULL
 );
 
 /*  Execute this file from the command line by typing:

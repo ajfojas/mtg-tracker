@@ -10,10 +10,6 @@ class Search extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    console.log('search mounted')
-  }
-
   render() {
     return (
       <div>

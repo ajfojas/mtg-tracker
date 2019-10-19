@@ -4,13 +4,13 @@ const pool = new Pool({
   host: 'localhost',
   user: 'student',
   password: 'student',
-  database: 'cardCollection',
+  database: 'cardCollection'
 });
 
 pool.connect();
 
-const postCard = function (image, callback) {
-  pool.query(`INSERT INTO photos (src, description, listingID) VALUES ('https://bnbair.s3-us-west-1.amazonaws.com/${randomInt(100)}.jpg', '${faker.lorem.sentence()}', ${listingID})`, (error, results, fields) => {
+const getCollection = function(callback) {
+  pool.query('SELECT * FROM cards', (error, results, fields) => {
     if (error) {
       callback(error);
     } else {
@@ -19,8 +19,19 @@ const postCard = function (image, callback) {
   });
 };
 
-const deleteCollection = function (listingID, photoID, callback) {
-  pool.query(`DELETE FROM photos WHERE listingID = ${listingID} AND id = ${photoID}`, (error, results, fields) => {
+const deleteCollection = function(callback) {
+  pool.query('DELETE FROM cards', (error, results, fields) => {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
+const postCard = function(name, id, callback) {
+  console.log(name, id)
+  pool.query(`INSERT INTO cards (name, id) VALUES ('${name}', '${id}')`, (error, results, fields) => {
     if (error) {
       callback(error);
     } else {
@@ -31,6 +42,7 @@ const deleteCollection = function (listingID, photoID, callback) {
 
 module.exports = {
   pool,
-  postCard,
+  getCollection,
   deleteCollection,
+  postCard
 };
