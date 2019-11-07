@@ -4,20 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "react-build": "webpack --watch --mode=development",
-    "server-start": "nodemon server/index.js",
+    "build": "webpack --watch",
+    "start": "nodemon server/index.js",
     "schema": "psql -d postgres -a -f schema.sql"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ajfojas/mtg-tracker.git"
+    "url": "git+https://github.com/ajfojas/pack-rat.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ajfojas/mtg-tracker/issues"
+    "url": "https://github.com/ajfojas/pack-rat/issues"
   },
-  "homepage": "https://github.com/ajfojas/mtg-tracker#readme",
+  "homepage": "https://github.com/ajfojas/pack-rat#readme",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
