@@ -1,12 +1,12 @@
 {
-  "name": "mtg-tracker",
+  "name": "pack-rat",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack --watch --mode='development'",
     "start": "nodemon server/index.js",
-    "schema": "psql -d postgres -a -f schema.sql"
+    "db": "psql -d postgres -a -f schema.sql"
   },
   "repository": {
     "type": "git",
