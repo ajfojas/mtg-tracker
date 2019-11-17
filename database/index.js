@@ -9,8 +9,8 @@ const pool = new Pool({
 
 pool.connect();
 
-const postCard = function(cardName, cardID, callback) {
-  pool.query(`INSERT INTO cards (name, cardID) VALUES ('${cardName}', '${cardID}')`, (error, results, fields) => {
+const postCard = function(cardID, imageURL, cardName, callback) {
+  pool.query(`INSERT INTO cards (cardID, imageURL, name) VALUES ('${cardID}', '${imageURL}', '${cardName}')`, (error, results, fields) => {
     if (error) {
       callback(error);
     } else {
