@@ -5,10 +5,10 @@ CREATE DATABASE "cardCollection";
 \c "cardCollection";
 
 CREATE TABLE "cards" (
-  "primaryID"   SERIAL PRIMARY KEY,
-  "id"          VARCHAR(200) NOT NULL,
-  "imageUrl"    VARCHAR(200) NOT NULL,
-  "name"        VARCHAR(200) NOT NULL
+  "primaryID" SERIAL PRIMARY KEY,
+  "id"        VARCHAR(200) NOT NULL,
+  "imageUrl"  VARCHAR(200) NOT NULL,
+  "name"      VARCHAR(200) NOT NULL
 );
 
 /*  Execute this file from the command line by typing:
