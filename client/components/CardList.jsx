@@ -8,12 +8,16 @@ class CardList extends React.Component {
   }
 
   render() {
+    if (this.props.cardList.length === 0) {
+      return (
+        <div>Collection is empty</div>
+      )
+    }
+
     return (
       <div>
         {this.props.cardList.map(card => {
-          if (card.imageUrl) {
-            return <CardEntry key={card.id} cardInfo={card} />
-          }
+          return <CardEntry key={card.id} cardInfo={card} button={this.props.button} />
         })}
       </div>
     )

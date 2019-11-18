@@ -5,27 +5,28 @@ import Search from './Search.jsx';
 import CardList from './CardList.jsx';
 import styled from 'styled-components';
 
-const Button = styled.button`
-  display: inline-block;
-`;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.cardSearch = this.cardSearch.bind(this);
+    this.searchCard = this.searchCard.bind(this);
     this.viewCollection = this.viewCollection.bind(this);
     this.deleteCollection = this.deleteCollection.bind(this);
 
     this.state = {
-      cards: []
+      recentlySearched: [],
+      collection: [],
+      viewCollection: false
     };
   }
 
-  cardSearch(event) {
+  searchCard(event) {
     event.preventDefault();
     let searchTerm = $('#card-search').val();
-    console.log(searchTerm, 'searched!');
+    $('#card-search').val('');
+    if (searchTerm.length === 0) {
+      return;
+    }
 
     axios.get(`/api/cards/${searchTerm}`)
       .then(cards => {
@@ -39,73 +40,77 @@ class App extends React.Component {
           if (nameA > nameB) {
             return 1;
           }
-          // names must be equal
           return 0;
         });
-        console.log(filteredCards);
+        console.log(filteredCards)
         this.setState({
-          cards: filteredCards
+          recentlySearched: filteredCards,
+          viewCollection: false
         });
       })
       .catch(error => {
         console.log(error);
-        alert(error);
       });
   }
 
   viewCollection(event) {
     event.preventDefault();
-    axios.get('/api/cards')
-      .then(cards => {
-        let collection = cards.data.rows;
-        //maybe format cards here
-        this.setState({
-          cards: collection
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        alert(error);
-      })
+    console.log('finish post first');
+    // axios.get('/api/collection')
+    //   .then(cards => {
+    //     console.log(cards)
+    //     let collection = cards.data.rows;
+    //     this.setState({
+    //       recentlySearched: collection,
+    //       viewCollection: true
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   })
   }
 
   deleteCollection(event) {
     event.preventDefault();
-    axios.delete('/api/cards')
-      .then(results => {
-        alert('Collection deleted');
-        let collection = results.data.rows;
-        //maybe format cards here
-        this.setState({
-          cards: collection
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        alert(error);
-      })
+    console.log('finish post first');
+    // axios.delete('/api/cards')
+    //   .then(results => {
+    //     alert('Collection deleted');
+    //     let collection = results.data.rows;
+    //     //maybe format cards here
+    //     this.setState({
+    //       recentlySearched: collection
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //     alert(error);
+    //   })
   }
 
   render() {
-    if(this.state.cards.length === 0) {
-      return(
-        <div>
-          <Search handleSearch={this.cardSearch} />
-          <Button onClick={this.viewCollection}>View Collection</Button>
-          <Button onClick={this.deleteCollection}>Delete Collection</Button>
-          <div>Collection is Empty</div>
-        </div>
-      )
+    let display;
+    if (this.state.viewCollection) {
+      display = <CardList cardList={this.state.collection} button={this.state.viewCollection} />;
+    } else {
+      display = <CardList cardList={this.state.recentlySearched} button={this.state.viewCollection} />;
     }
+
     return (
       <div>
-        <Search handleSearch={this.cardSearch} />
+        <Search handleSearch={this.searchCard} />
         <Button onClick={this.viewCollection}>View Collection</Button>
+        {' '}
         <Button onClick={this.deleteCollection}>Delete Collection</Button>
-        <CardList cardList={this.state.cards} />
+        {display}
       </div>
     )
   }
 }
 
 export default App;
+
+// Styles
+const Button = styled.button`
+  display: inline-block;
+`;

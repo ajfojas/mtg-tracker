@@ -2,6 +2,42 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+class CardEntry extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.addCard = this.addCard.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
+
+    this.state = {};
+  }
+
+  addCard(event) {
+  }
+
+  deleteCard() {
+  }
+
+  render() {
+    let button;
+    if (this.props.button) {
+      button = <Button onClick={this.deleteCard}>Delete from Collection</Button>;
+    } else {
+      button = <Button onClick={this.addCard}>Add to Collection</Button>;
+    }
+
+    return (
+      <Div>
+        <Image src={this.props.cardInfo.imageUrl}></Image>
+        {button}
+      </Div>
+    )
+  }
+}
+
+export default CardEntry;
+
+// Styles
 const Div = styled.div`
   display: inline-flex;
   flex-direction: row;
@@ -17,40 +53,3 @@ const Image = styled.img`
 const Button = styled.button`
   width: 215px;
 `;
-
-class CardEntry extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addCard = this.addCard.bind(this);
-
-    this.state = {
-      card: this.props.cardInfo
-    }
-  }
-
-  addCard(event) {
-    event.preventDefault();
-    axios.post(`/api/cards/${this.state.card.name}/${this.state.card.id}`)
-      .then((data) => {
-        console.log(data);
-        console.log(this.state.card.name, 'posted to database');
-      })
-      .catch(error => {
-        console.log(error);
-        alert(error);
-      })
-  }
-
-  render() {
-    console.log(this.state.card)
-    return (
-      <Div>
-        <Image src={this.state.card.imageUrl}></Image>
-        <Button onClick={this.addCard}>Add to Collection</Button>
-      </Div>
-    )
-  }
-}
-
-export default CardEntry;
