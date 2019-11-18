@@ -22,9 +22,9 @@ app.get('/api/cards/:cardName', (req, res) => {
   });
 });
 
-app.post('/api/collection/:cardName/:cardID', (req, res) => {
-  let { cardName, cardID } = req.params;
-  db.postCard(cardName, cardID, (error, data) => {
+app.post('/api/collection/:cardID/:imageURL/:cardName', (req, res) => {
+  let { cardID, imageURL, cardName } = req.params;
+  db.postCard(cardID, imageURL, cardName, (error, data) => {
     if (error) {
       res.status(500).send(error);
     } else {
