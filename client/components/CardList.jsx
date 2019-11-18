@@ -29,7 +29,6 @@ class CardList extends React.Component {
       }
       return 0;
     });
-    console.log(cardList, this.props.state.viewCollection)
 
     return (
       <div>
