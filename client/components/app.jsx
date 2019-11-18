@@ -16,7 +16,7 @@ class App extends React.Component {
     this.state = {
       recentlySearched: [],
       collection: [],
-      viewCollection: true
+      viewCollection: false
     };
   }
 
