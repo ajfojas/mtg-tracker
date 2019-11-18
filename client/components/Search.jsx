@@ -14,6 +14,7 @@ class Search extends React.Component {
           <input type="search" id="card-search" placeholder="Card Name" />
         </Form>
         <button onClick={this.props.handleSearch}>Go</button>
+        <span id="loading"></span>
       </div>
     )
   }

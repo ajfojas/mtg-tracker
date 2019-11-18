@@ -16,7 +16,7 @@ class App extends React.Component {
     this.state = {
       recentlySearched: [],
       collection: [],
-      viewCollection: false
+      viewCollection: true
     };
   }
 
@@ -27,9 +27,11 @@ class App extends React.Component {
     if (searchTerm.length === 0) {
       return;
     }
+    $('#loading').text(' Loading...');
 
     axios.get(`/api/cards/${searchTerm}`)
       .then(cards => {
+        $('#loading').text('');
         let filteredCards = cards.data.filter(card => card.imageUrl);
         this.setState({
           recentlySearched: filteredCards,
@@ -37,6 +39,7 @@ class App extends React.Component {
         });
       })
       .catch(error => {
+        $('#loading').text('');
         console.log(error);
       });
   }

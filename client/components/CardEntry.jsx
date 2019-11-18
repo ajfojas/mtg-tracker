@@ -14,7 +14,6 @@ class CardEntry extends React.Component {
 
   addCard(event) {
     event.preventDefault();
-    console.log(this.props.cardInfo);
     let imageURL = this.props.cardInfo.imageUrl.replace(/(:)/gi, '123abc').replace(/(\/)/gi, '234bcd').replace(/(\.)/gi, '345cde').replace(/(\?)/gi, '456def').replace(/(=)/gi, '567efg').replace(/(&)/gi, '678fgh');
 
     axios.post(`/api/collection/${this.props.cardInfo.id}/${imageURL}/${this.props.cardInfo.name}`)
@@ -26,21 +25,18 @@ class CardEntry extends React.Component {
       })
   }
 
-  deleteCard() {
+  deleteCard(event) {
+    event.preventDefault();
+
   }
 
   render() {
-    let button;
+    let button = <Button onClick={this.addCard}>Add to Collection</Button>;
     if (this.props.button) {
       button = <Button onClick={this.deleteCard}>Delete from Collection</Button>;
-    } else {
-      button = <Button onClick={this.addCard}>Add to Collection</Button>;
     }
 
-    let imageURL = this.props.cardInfo.imageUrl;
-    if (this.props.cardInfo.imageurl) {
-      imageURL = this.props.cardInfo.imageurl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
-    }
+    let imageURL = this.props.cardInfo.imageUrl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
 
     return (
       <Div>
