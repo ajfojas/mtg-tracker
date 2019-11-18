@@ -13,7 +13,7 @@ class Search extends React.Component {
           <label htmlFor="card-search">Search Card Name: </label>
           <input type="search" id="card-search" placeholder="Card Name" />
         </Form>
-        <button onClick={this.props.handleSearch}>Go</button>
+        <Go onClick={this.props.handleSearch}>Go</Go>
         <span id="loading"></span>
       </div>
     )
@@ -25,4 +25,9 @@ export default Search;
 // Styles
 const Form = styled.form`
   display: inline-block;
+`;
+
+const Go = styled.button`
+  display: inline-block;
+  border-color: green;
 `;

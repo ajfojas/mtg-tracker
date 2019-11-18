@@ -94,12 +94,10 @@ export default App;
 // Styles
 const View = styled.button`
 display: inline-block;
-background-color: blue;
-color: white;
+border-color: blue;
 `;
 
 const Delete = styled.button`
   display: inline-block;
-  background-color: red;
-  color: white;
+  border-color: red;
 `;
