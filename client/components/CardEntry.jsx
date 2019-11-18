@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import $ from 'jquery';
 
 class CardEntry extends React.Component {
   constructor(props) {
@@ -18,7 +19,10 @@ class CardEntry extends React.Component {
 
     axios.post(`/api/collection/${this.props.cardInfo.id}/${imageURL}/${this.props.cardInfo.name}`)
       .then(results => {
-        console.log(this.props.cardInfo.name + ' added');
+        $('#status').text(`Added ${this.props.cardInfo.name}`);
+        setTimeout(() => {
+          $('#status').text('');
+        }, 3000);
       })
       .catch(error => {
         console.log(error);
@@ -30,17 +34,10 @@ class CardEntry extends React.Component {
     let cardName = this.props.cardInfo.name;
     axios.delete(`/api/collection/${this.props.cardInfo.primaryID}`)
       .then(results => {
-        console.log(cardName + ' deleted');
-        axios.get('/api/collection')
-          .then(cards => {
-            this.setState({
-              collection: cards.data.rows,
-              viewCollection: true
-            });
-          })
-          .catch(error => {
-            console.log(error);
-          })
+        $('#status').text(`Deleted ${cardName}`);
+        setTimeout(() => {
+          $('#status').text('');
+        }, 3000);
       })
       .catch(error => {
         console.log(error);

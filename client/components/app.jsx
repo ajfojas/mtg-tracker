@@ -27,11 +27,11 @@ class App extends React.Component {
     if (searchTerm.length === 0) {
       return;
     }
-    $('#loading').text(' Loading...');
+    $('#status').text('Loading...');
 
     axios.get(`/api/cards/${searchTerm}`)
       .then(cards => {
-        $('#loading').text('');
+        $('#status').text('');
         let filteredCards = cards.data.filter(card => card.imageUrl);
         this.setState({
           recentlySearched: filteredCards,
@@ -39,7 +39,7 @@ class App extends React.Component {
         });
       })
       .catch(error => {
-        $('#loading').text('');
+        $('#status').text('');
         console.log(error);
       });
   }
@@ -83,6 +83,8 @@ class App extends React.Component {
         <View onClick={this.viewCollection}>View Collection</View>
         {' '}
         <Delete onClick={this.deleteCollection}>Delete Collection</Delete>
+        {' '}
+        <span id="status"></span>
         <CardList cardList={cardList} state={this.state} />
       </div>
     )
