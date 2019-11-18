@@ -80,9 +80,9 @@ class App extends React.Component {
     return (
       <div>
         <Search handleSearch={this.searchCard} />
-        <Button onClick={this.viewCollection}>View Collection</Button>
+        <View onClick={this.viewCollection}>View Collection</View>
         {' '}
-        <Button onClick={this.deleteCollection}>Delete Collection</Button>
+        <Delete onClick={this.deleteCollection}>Delete Collection</Delete>
         <CardList cardList={cardList} state={this.state} />
       </div>
     )
@@ -92,6 +92,14 @@ class App extends React.Component {
 export default App;
 
 // Styles
-const Button = styled.button`
+const View = styled.button`
+display: inline-block;
+background-color: blue;
+color: white;
+`;
+
+const Delete = styled.button`
   display: inline-block;
+  background-color: red;
+  color: white;
 `;
