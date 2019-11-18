@@ -31,18 +31,6 @@ class App extends React.Component {
     axios.get(`/api/cards/${searchTerm}`)
       .then(cards => {
         let filteredCards = cards.data.filter(card => card.imageUrl);
-        filteredCards.sort((a, b) => {
-          let nameA = a.name.toUpperCase();
-          let nameB = b.name.toUpperCase();
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-          return 0;
-        });
-        console.log(filteredCards)
         this.setState({
           recentlySearched: filteredCards,
           viewCollection: false
@@ -86,11 +74,9 @@ class App extends React.Component {
   }
 
   render() {
-    let display;
+    let cardList = this.state.recentlySearched;
     if (this.state.viewCollection) {
-      display = <CardList cardList={this.state.collection} button={this.state.viewCollection} />;
-    } else {
-      display = <CardList cardList={this.state.recentlySearched} button={this.state.viewCollection} />;
+      cardList = this.state.collection;
     }
 
     return (
@@ -99,7 +85,7 @@ class App extends React.Component {
         <Button onClick={this.viewCollection}>View Collection</Button>
         {' '}
         <Button onClick={this.deleteCollection}>Delete Collection</Button>
-        {display}
+        <CardList cardList={cardList} state={this.state} />
       </div>
     )
   }
