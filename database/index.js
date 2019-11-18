@@ -10,7 +10,7 @@ const pool = new Pool({
 pool.connect();
 
 const postCard = function(cardID, imageURL, cardName, callback) {
-  pool.query(`INSERT INTO cards (cardID, imageURL, name) VALUES ('${cardID}', '${imageURL}', '${cardName}')`, (error, results, fields) => {
+  pool.query(`INSERT INTO cards (id, imageURL, name) VALUES ('${cardID}', '${imageURL}', '${cardName}')`, (error, results, fields) => {
     if (error) {
       callback(error);
     } else {
@@ -30,7 +30,7 @@ const getCollection = function(callback) {
 };
 
 const deleteCard = function(cardID, callback) {
-  pool.query(`DELETE FROM cards WHERE cardID = ${cardID}`, (error, results, fields) => {
+  pool.query(`DELETE FROM cards WHERE id = ${cardID}`, (error, results, fields) => {
     if (error) {
       callback(error);
     } else {
