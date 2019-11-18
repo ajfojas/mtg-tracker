@@ -30,7 +30,7 @@ const getCollection = function(callback) {
 };
 
 const deleteCard = function(cardID, callback) {
-  pool.query(`DELETE FROM cards WHERE "id" = ${cardID}`, (error, results, fields) => {
+  pool.query(`DELETE FROM cards WHERE "primaryID" = ${cardID}`, (error, results, fields) => {
     if (error) {
       callback(error);
     } else {
