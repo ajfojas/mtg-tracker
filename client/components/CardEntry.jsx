@@ -37,9 +37,14 @@ class CardEntry extends React.Component {
       button = <Button onClick={this.addCard}>Add to Collection</Button>;
     }
 
+    let imageURL = this.props.cardInfo.imageUrl;
+    if (this.props.cardInfo.imageurl) {
+      imageURL = this.props.cardInfo.imageurl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
+    }
+
     return (
       <Div>
-        <Image src={this.props.cardInfo.imageUrl}></Image>
+        <Image src={imageURL}></Image>
         {button}
       </Div>
     )

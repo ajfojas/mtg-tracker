@@ -55,19 +55,16 @@ class App extends React.Component {
 
   viewCollection(event) {
     event.preventDefault();
-    console.log('finish post first');
-    // axios.get('/api/collection')
-    //   .then(cards => {
-    //     console.log(cards)
-    //     let collection = cards.data.rows;
-    //     this.setState({
-    //       recentlySearched: collection,
-    //       viewCollection: true
-    //     });
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   })
+    axios.get('/api/collection')
+      .then(cards => {
+        this.setState({
+          collection: cards.data.rows,
+          viewCollection: true
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   deleteCollection(event) {
