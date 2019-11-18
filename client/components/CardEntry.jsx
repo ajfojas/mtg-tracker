@@ -17,7 +17,7 @@ class CardEntry extends React.Component {
     let imageURL = this.props.cardInfo.imageUrl.replace(/(:)/gi, '123abc').replace(/(\/)/gi, '234bcd').replace(/(\.)/gi, '345cde').replace(/(\?)/gi, '456def').replace(/(=)/gi, '567efg').replace(/(&)/gi, '678fgh');
 
     axios.post(`/api/collection/${this.props.cardInfo.id}/${imageURL}/${this.props.cardInfo.name}`)
-      .then(data => {
+      .then(results => {
         console.log(this.props.cardInfo.name + ' added');
       })
       .catch(error => {
@@ -27,13 +27,30 @@ class CardEntry extends React.Component {
 
   deleteCard(event) {
     event.preventDefault();
-
+    let cardName = this.props.cardInfo.name;
+    axios.delete(`/api/collection/${this.props.cardInfo.primaryID}`)
+      .then(results => {
+        console.log(cardName + ' deleted');
+        axios.get('/api/collection')
+          .then(cards => {
+            this.setState({
+              collection: cards.data.rows,
+              viewCollection: true
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   render() {
-    let button = <Button onClick={this.addCard}>Add to Collection</Button>;
+    let button = <Add onClick={this.addCard}>Add to Collection</Add>;
     if (this.props.button) {
-      button = <Button onClick={this.deleteCard}>Delete from Collection</Button>;
+      button = <Delete onClick={this.deleteCard}>Delete from Collection</Delete>;
     }
 
     let imageURL = this.props.cardInfo.imageUrl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
@@ -62,6 +79,12 @@ const Image = styled.img`
   height: 300px;
 `;
 
-const Button = styled.button`
+const Add = styled.button`
   width: 215px;
+  border-color: blue;
+`;
+
+const Delete = styled.button`
+  width: 215px;
+  border-color: red;
 `;
