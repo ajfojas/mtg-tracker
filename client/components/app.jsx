@@ -60,20 +60,15 @@ class App extends React.Component {
 
   deleteCollection(event) {
     event.preventDefault();
-    console.log('finish post first');
-    // axios.delete('/api/cards')
-    //   .then(results => {
-    //     alert('Collection deleted');
-    //     let collection = results.data.rows;
-    //     //maybe format cards here
-    //     this.setState({
-    //       recentlySearched: collection
-    //     });
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     alert(error);
-    //   })
+    axios.delete('/api/collection')
+      .then(results => {
+        this.setState({
+          collection: results.data.rows
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   render() {
