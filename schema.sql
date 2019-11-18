@@ -5,8 +5,8 @@ CREATE DATABASE "cardCollection";
 \c "cardCollection";
 
 CREATE TABLE "cards" (
-  id          SERIAL PRIMARY KEY,
-  cardID      VARCHAR(200) NOT NULL,
+  primaryID   SERIAL PRIMARY KEY,
+  id          VARCHAR(200) NOT NULL,
   imageURL    VARCHAR(200) NOT NULL,
   name        VARCHAR(200) NOT NULL
 );
