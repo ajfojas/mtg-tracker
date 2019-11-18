@@ -5,107 +5,101 @@ import Search from './Search.jsx';
 import CardList from './CardList.jsx';
 import styled from 'styled-components';
 
-const Button = styled.button`
-  display: inline-block;
-`;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.cardSearch = this.cardSearch.bind(this);
+    this.searchCard = this.searchCard.bind(this);
     this.viewCollection = this.viewCollection.bind(this);
     this.deleteCollection = this.deleteCollection.bind(this);
 
     this.state = {
-      cards: []
+      recentlySearched: [],
+      collection: [],
+      viewCollection: false
     };
   }
 
-  cardSearch(event) {
+  searchCard(event) {
     event.preventDefault();
     let searchTerm = $('#card-search').val();
-    console.log(searchTerm, 'searched!');
+    $('#card-search').val('');
+    if (searchTerm.length === 0) {
+      return;
+    }
+    $('#status').text('Loading...');
 
     axios.get(`/api/cards/${searchTerm}`)
       .then(cards => {
+        $('#status').text('');
         let filteredCards = cards.data.filter(card => card.imageUrl);
-        filteredCards.sort((a, b) => {
-          let nameA = a.name.toUpperCase();
-          let nameB = b.name.toUpperCase();
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-          // names must be equal
-          return 0;
-        });
-        console.log(filteredCards);
         this.setState({
-          cards: filteredCards
+          recentlySearched: filteredCards,
+          viewCollection: false
         });
       })
       .catch(error => {
+        $('#status').text('');
         console.log(error);
-        alert(error);
       });
   }
 
   viewCollection(event) {
     event.preventDefault();
-    axios.get('/api/cards')
+    axios.get('/api/collection')
       .then(cards => {
-        let collection = cards.data.rows;
-        //maybe format cards here
         this.setState({
-          cards: collection
+          collection: cards.data.rows,
+          viewCollection: true
         });
       })
       .catch(error => {
         console.log(error);
-        alert(error);
       })
   }
 
   deleteCollection(event) {
     event.preventDefault();
-    axios.delete('/api/cards')
+    axios.delete('/api/collection')
       .then(results => {
-        alert('Collection deleted');
-        let collection = results.data.rows;
-        //maybe format cards here
         this.setState({
-          cards: collection
+          collection: results.data.rows
         });
       })
       .catch(error => {
         console.log(error);
-        alert(error);
       })
   }
 
   render() {
-    if(this.state.cards.length === 0) {
-      return(
-        <div>
-          <Search handleSearch={this.cardSearch} />
-          <Button onClick={this.viewCollection}>View Collection</Button>
-          <Button onClick={this.deleteCollection}>Delete Collection</Button>
-          <div>Collection is Empty</div>
-        </div>
-      )
+    let cardList = this.state.recentlySearched;
+    if (this.state.viewCollection) {
+      cardList = this.state.collection;
     }
+
     return (
       <div>
-        <Search handleSearch={this.cardSearch} />
-        <Button onClick={this.viewCollection}>View Collection</Button>
-        <Button onClick={this.deleteCollection}>Delete Collection</Button>
-        <CardList cardList={this.state.cards} />
+        <Search handleSearch={this.searchCard} />
+        <View onClick={this.viewCollection}>View Collection</View>
+        {' '}
+        <Delete onClick={this.deleteCollection}>Delete Collection</Delete>
+        {' '}
+        <span id="status"></span>
+        <CardList cardList={cardList} state={this.state} />
       </div>
     )
   }
 }
 
 export default App;
+
+// Styles
+const View = styled.button`
+display: inline-block;
+border-color: blue;
+`;
+
+const Delete = styled.button`
+  display: inline-block;
+  border-color: red;
+`;

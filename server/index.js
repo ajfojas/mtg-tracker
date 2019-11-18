@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mtg = require('mtgsdk');
@@ -12,8 +11,8 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/cards/:card_name', (req, res) => {
-  let cardName = req.params.card_name;
+app.get('/api/cards/:cardName', (req, res) => {
+  let { cardName } = req.params;
   mtg.card.where({name: `${cardName}`})
   .then(results => {
     res.status(200).send(results);
@@ -23,7 +22,18 @@ app.get('/api/cards/:card_name', (req, res) => {
   });
 });
 
-app.get('/api/cards', (req, res) => {
+app.post('/api/collection/:cardID/:imageURL/:cardName', (req, res) => {
+  let { cardID, imageURL, cardName } = req.params;
+  db.postCard(cardID, imageURL, cardName, (error, data) => {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.status(200).send(data);
+    }
+  });
+});
+
+app.get('/api/collection', (req, res) => {
   db.getCollection((error, data) => {
     if (error) {
       res.status(500).send(error);
@@ -33,8 +43,9 @@ app.get('/api/cards', (req, res) => {
   });
 });
 
-app.delete('/api/cards', (req, res) => {
-  db.deleteCollection((error, data) => {
+app.delete('/api/collection/:cardID', (req, res) => {
+  let { cardID } = req.params;
+  db.deleteCard(cardID, (error, data) => {
     if (error) {
       res.status(500).send(error);
     } else {
@@ -43,11 +54,8 @@ app.delete('/api/cards', (req, res) => {
   });
 });
 
-app.post('/api/cards/:cardName/:cardID', (req, res) => {
-  let {cardName, cardID} = req.params;
-  console.log(cardName);
-  console.log(cardID);
-  db.postCard(cardName, cardID, (error, data) => {
+app.delete('/api/collection', (req, res) => {
+  db.deleteCollection((error, data) => {
     if (error) {
       res.status(500).send(error);
     } else {

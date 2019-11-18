@@ -1,7 +1,69 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import $ from 'jquery';
 
+class CardEntry extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.addCard = this.addCard.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
+
+    this.state = {};
+  }
+
+  addCard(event) {
+    event.preventDefault();
+    let imageURL = this.props.cardInfo.imageUrl.replace(/(:)/gi, '123abc').replace(/(\/)/gi, '234bcd').replace(/(\.)/gi, '345cde').replace(/(\?)/gi, '456def').replace(/(=)/gi, '567efg').replace(/(&)/gi, '678fgh');
+
+    axios.post(`/api/collection/${this.props.cardInfo.id}/${imageURL}/${this.props.cardInfo.name}`)
+      .then(results => {
+        $('#status').text(`Added ${this.props.cardInfo.name}`);
+        setTimeout(() => {
+          $('#status').text('');
+        }, 3000);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  deleteCard(event) {
+    event.preventDefault();
+    let cardName = this.props.cardInfo.name;
+    axios.delete(`/api/collection/${this.props.cardInfo.primaryID}`)
+      .then(results => {
+        $('#status').text(`Deleted ${cardName}`);
+        setTimeout(() => {
+          $('#status').text('');
+        }, 3000);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  render() {
+    let button = <Add onClick={this.addCard}>Add to Collection</Add>;
+    if (this.props.button) {
+      button = <Delete onClick={this.deleteCard}>Delete from Collection</Delete>;
+    }
+
+    let imageURL = this.props.cardInfo.imageUrl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
+
+    return (
+      <Div>
+        <Image src={imageURL}></Image>
+        {button}
+      </Div>
+    )
+  }
+}
+
+export default CardEntry;
+
+// Styles
 const Div = styled.div`
   display: inline-flex;
   flex-direction: row;
@@ -14,43 +76,12 @@ const Image = styled.img`
   height: 300px;
 `;
 
-const Button = styled.button`
+const Add = styled.button`
   width: 215px;
+  border-color: blue;
 `;
 
-class CardEntry extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addCard = this.addCard.bind(this);
-
-    this.state = {
-      card: this.props.cardInfo
-    }
-  }
-
-  addCard(event) {
-    event.preventDefault();
-    axios.post(`/api/cards/${this.state.card.name}/${this.state.card.id}`)
-      .then((data) => {
-        console.log(data);
-        console.log(this.state.card.name, 'posted to database');
-      })
-      .catch(error => {
-        console.log(error);
-        alert(error);
-      })
-  }
-
-  render() {
-    console.log(this.state.card)
-    return (
-      <Div>
-        <Image src={this.state.card.imageUrl}></Image>
-        <Button onClick={this.addCard}>Add to Collection</Button>
-      </Div>
-    )
-  }
-}
-
-export default CardEntry;
+const Delete = styled.button`
+  width: 215px;
+  border-color: red;
+`;

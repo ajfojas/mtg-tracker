@@ -9,8 +9,28 @@ const pool = new Pool({
 
 pool.connect();
 
+const postCard = function(cardID, imageURL, cardName, callback) {
+  pool.query(`INSERT INTO cards ("id", "imageUrl", "name") VALUES ('${cardID}', '${imageURL}', '${cardName}')`, (error, results, fields) => {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
 const getCollection = function(callback) {
   pool.query('SELECT * FROM cards', (error, results, fields) => {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
+const deleteCard = function(cardID, callback) {
+  pool.query(`DELETE FROM cards WHERE "primaryID" = ${cardID}`, (error, results, fields) => {
     if (error) {
       callback(error);
     } else {
@@ -29,20 +49,9 @@ const deleteCollection = function(callback) {
   });
 };
 
-const postCard = function(name, id, callback) {
-  console.log(name, id)
-  pool.query(`INSERT INTO cards (name, id) VALUES ('${name}', '${id}')`, (error, results, fields) => {
-    if (error) {
-      callback(error);
-    } else {
-      callback(null, results);
-    }
-  });
-};
-
 module.exports = {
-  pool,
+  postCard,
   getCollection,
+  deleteCard,
   deleteCollection,
-  postCard
 };
