@@ -6,9 +6,9 @@ CREATE DATABASE "cardCollection";
 
 CREATE TABLE "cards" (
   id          SERIAL PRIMARY KEY,
-  cardID      VARCHAR(100) NOT NULL,
-  imageURL    VARCHAR(100) NOT NULL,
-  name        VARCHAR(100) NOT NULL
+  cardID      VARCHAR(200) NOT NULL,
+  imageURL    VARCHAR(200) NOT NULL,
+  name        VARCHAR(200) NOT NULL
 );
 
 /*  Execute this file from the command line by typing:
