@@ -16,8 +16,9 @@ class CardEntry extends React.Component {
   addCard(event) {
     event.preventDefault();
     let imageURL = this.props.cardInfo.imageUrl.replace(/(:)/gi, '123abc').replace(/(\/)/gi, '234bcd').replace(/(\.)/gi, '345cde').replace(/(\?)/gi, '456def').replace(/(=)/gi, '567efg').replace(/(&)/gi, '678fgh');
+    let cardName = this.props.cardInfo.name.replace(/(')/gi, '123abc');
 
-    axios.post(`/api/collection/${this.props.cardInfo.id}/${imageURL}/${this.props.cardInfo.name}`)
+    axios.post(`/api/collection/${this.props.cardInfo.id}/${imageURL}/${cardName}`)
       .then(results => {
         $('#status').text(`Added ${this.props.cardInfo.name}`);
         setTimeout(() => {
@@ -51,6 +52,7 @@ class CardEntry extends React.Component {
     }
 
     let imageURL = this.props.cardInfo.imageUrl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
+    let cardName = this.props.cardInfo.name.replace(/(123abc)/gi, '\'');
 
     return (
       <Div>
