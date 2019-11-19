@@ -5,16 +5,36 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mtg = require('mtgsdk');
 const db = require('../database/index.js');
+const redis = require('redis');
+const redisPort = 6379;
+const redisClient = redis.createClient(redisPort);
 
 app.use(express.static('public'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/cards/:cardName', (req, res) => {
+let cacheSearch = (req, res, next) => {
   let { cardName } = req.params;
+  cardName = cardName.toLowerCase();
+  redisClient.get(`${cardName}`, (err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    if (data !== null) {
+      res.status(200).send(JSON.parse(data));
+    } else {
+      next();
+    }
+  });
+};
+
+app.get('/api/cards/:cardName', cacheSearch, (req, res) => {
+  let { cardName } = req.params;
+  cardName = cardName.toLowerCase();
   mtg.card.where({name: `${cardName}`})
   .then(results => {
+    redisClient.setex(`${cardName}`, 3600, JSON.stringify(results));
     res.status(200).send(results);
   })
   .catch(error => {
