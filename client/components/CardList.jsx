@@ -32,8 +32,8 @@ class CardList extends React.Component {
 
     return (
       <div>
-        {cardList.map(card => {
-          return <CardEntry key={card.id} cardInfo={card} button={this.props.state.viewCollection} />
+        {cardList.map((card, index) => {
+          return <CardEntry key={index} cardInfo={card} button={this.props.state.viewCollection} />
         })}
       </div>
     )
