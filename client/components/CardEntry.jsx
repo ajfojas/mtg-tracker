@@ -3,24 +3,15 @@ import styled from 'styled-components';
 import axios from 'axios';
 import $ from 'jquery';
 
-class CardEntry extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addCard = this.addCard.bind(this);
-    this.deleteCard = this.deleteCard.bind(this);
-
-    this.state = {};
-  }
-
-  addCard(event) {
+export default function CardEntry({ cardInfo, button }) {
+  function handleAddCard(event) {
     event.preventDefault();
-    let imageURL = this.props.cardInfo.imageUrl.replace(/(:)/gi, '123abc').replace(/(\/)/gi, '234bcd').replace(/(\.)/gi, '345cde').replace(/(\?)/gi, '456def').replace(/(=)/gi, '567efg').replace(/(&)/gi, '678fgh');
-    let cardName = this.props.cardInfo.name.replace(/(')/gi, '123abc');
+    let imageURL = cardInfo.imageUrl.replace(/(:)/gi, '123abc').replace(/(\/)/gi, '234bcd').replace(/(\.)/gi, '345cde').replace(/(\?)/gi, '456def').replace(/(=)/gi, '567efg').replace(/(&)/gi, '678fgh');
+    let cardName = cardInfo.name.replace(/(')/gi, '123abc');
 
-    axios.post(`/api/collection/${this.props.cardInfo.id}/${imageURL}/${cardName}`)
-      .then(results => {
-        $('#status').text(`Added ${this.props.cardInfo.name}`);
+    axios.post(`/api/collection/${cardInfo.id}/${imageURL}/${cardName}`)
+      .then(() => {
+        $('#status').text(`Added ${cardInfo.name}`);
         setTimeout(() => {
           $('#status').text('');
         }, 3000);
@@ -30,12 +21,11 @@ class CardEntry extends React.Component {
       })
   }
 
-  deleteCard(event) {
+  function handleDeleteCard(event) {
     event.preventDefault();
-    let cardName = this.props.cardInfo.name;
-    axios.delete(`/api/collection/${this.props.cardInfo.primaryID}`)
-      .then(results => {
-        $('#status').text(`Deleted ${cardName}`);
+    axios.delete(`/api/collection/${cardInfo.primaryID}`)
+      .then(() => {
+        $('#status').text(`Deleted ${cardInfo.name}`);
         setTimeout(() => {
           $('#status').text('');
         }, 3000);
@@ -45,25 +35,20 @@ class CardEntry extends React.Component {
       })
   }
 
-  render() {
-    let button = <Add onClick={this.addCard}>Add to Collection</Add>;
-    if (this.props.button) {
-      button = <Delete onClick={this.deleteCard}>Delete from Collection</Delete>;
+  let addDeleteButton = <Add onClick={handleAddCard}>Add to Collection</Add>;
+    if (button) {
+      addDeleteButton = <Delete onClick={handleDeleteCard}>Delete from Collection</Delete>;
     }
 
-    let imageURL = this.props.cardInfo.imageUrl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
-    let cardName = this.props.cardInfo.name.replace(/(123abc)/gi, '\'');
+    let imageURL = cardInfo.imageUrl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
 
     return (
       <Div>
         <Image src={imageURL}></Image>
-        {button}
+        {addDeleteButton}
       </Div>
     )
-  }
 }
-
-export default CardEntry;
 
 // Styles
 const Div = styled.div`

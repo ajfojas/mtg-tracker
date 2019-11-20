@@ -1,26 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import $ from 'jquery';
 import Search from './Search.jsx';
 import CardList from './CardList.jsx';
 import styled from 'styled-components';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+export default function App() {
+  const [recentlySearched, setRecentlySearched] = useState([]);
+  const [collection, setCollection] = useState([]);
+  const [displayCollection, setDisplayCollection] = useState(false);
 
-    this.searchCard = this.searchCard.bind(this);
-    this.viewCollection = this.viewCollection.bind(this);
-    this.deleteCollection = this.deleteCollection.bind(this);
+  // cDM, componentDidUpdate - meaning component rerendered
+  useEffect(() => console.log(recentlySearched), [recentlySearched])
 
-    this.state = {
-      recentlySearched: [],
-      collection: [],
-      viewCollection: false
-    };
-  }
-
-  searchCard(event) {
+  function handleSearchCard(event) {
     event.preventDefault();
     let searchTerm = $('#card-search').val();
     $('#card-search').val('');
@@ -33,10 +26,8 @@ class App extends React.Component {
       .then(cards => {
         $('#status').text('');
         let filteredCards = cards.data.filter(card => card.imageUrl);
-        this.setState({
-          recentlySearched: filteredCards,
-          viewCollection: false
-        });
+        setRecentlySearched(filteredCards);
+        setDisplayCollection(false);
       })
       .catch(error => {
         $('#status').text('');
@@ -44,54 +35,46 @@ class App extends React.Component {
       });
   }
 
-  viewCollection(event) {
+  function handleViewCollection(event) {
     event.preventDefault();
     axios.get('/api/collection')
       .then(cards => {
-        this.setState({
-          collection: cards.data.rows,
-          viewCollection: true
-        });
+        setCollection(cards.data.row);
+        setDisplayCollection(true);
       })
       .catch(error => {
         console.log(error);
       })
   }
 
-  deleteCollection(event) {
+  function handleDeleteCollection(event) {
     event.preventDefault();
     axios.delete('/api/collection')
       .then(results => {
-        this.setState({
-          collection: results.data.rows
-        });
+        setCollection(results.data.rows);
       })
       .catch(error => {
         console.log(error);
       })
   }
 
-  render() {
-    let cardList = this.state.recentlySearched;
-    if (this.state.viewCollection) {
-      cardList = this.state.collection;
-    }
-
-    return (
-      <div>
-        <Search handleSearch={this.searchCard} />
-        <View onClick={this.viewCollection}>View Collection</View>
-        {' '}
-        <Delete onClick={this.deleteCollection}>Delete Collection</Delete>
-        {' '}
-        <span id="status"></span>
-        <CardList cardList={cardList} state={this.state} />
-      </div>
-    )
+  let cardList = recentlySearched;
+  if (displayCollection) {
+    cardList = collection;
   }
-}
 
-export default App;
+  return (
+    <div>
+      <Search handleSearch={handleSearchCard} />
+      <View onClick={handleViewCollection}>View Collection</View>
+      {' '}
+      <Delete onClick={handleDeleteCollection}>Delete Collection</Delete>
+      {' '}
+      <span id="status"></span>
+      <CardList cardList={cardList} collectionList={collection} viewCollection={displayCollection} />                 {/*still have to pass state down*/}
+    </div>
+  )
+}
 
 // Styles
 const View = styled.button`

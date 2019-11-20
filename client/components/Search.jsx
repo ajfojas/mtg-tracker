@@ -1,25 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-class Search extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
-        <Form onSubmit={this.props.handleSearch}>
-          <label htmlFor="card-search">Search Card Name: </label>
-          <input type="search" id="card-search" placeholder="Card Name" />
-        </Form>
-        <Go onClick={this.props.handleSearch}>Go</Go>
-      </div>
-    )
-  }
+export default function Search({ handleSearch }) {
+  return (
+    <div>
+      <Form onSubmit={handleSearch}>
+        <label htmlFor="card-search">Search Card Name: </label>
+        <input type="search" id="card-search" placeholder="Card Name" />
+      </Form>
+      <Go onClick={handleSearch}>Go</Go>
+    </div>
+  )
 }
-
-export default Search;
 
 // Styles
 const Form = styled.form`
