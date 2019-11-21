@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import CardEntry from './CardEntry.jsx';
+import { StateContext } from './contexts/StateContext.jsx';
 
-export default function CardList({ cardList, collectionList, viewCollection }) {
+export default function CardList() {
+  const { recentlySearched, collection, displayCollection } = useContext(StateContext);
+
+  let cardList = recentlySearched;
+  if (displayCollection) {
+    cardList = collection;
+  }
+
   if (cardList.length === 0) {
     let text = 'No Results';
-    if (cardList === collectionList) {
+    if (displayCollection) {
       text = 'Collection is Empty'
     }
     return (
@@ -27,7 +35,7 @@ export default function CardList({ cardList, collectionList, viewCollection }) {
   return (
     <div>
       {list.map((card, index) => {
-        return <CardEntry key={index} cardInfo={card} button={viewCollection} />
+        return <CardEntry key={index} cardInfo={card} />
       })}
     </div>
   )

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import $ from 'jquery';
+import { StateContext } from './contexts/StateContext.jsx';
 
-export default function CardEntry({ cardInfo, button }) {
+export default function CardEntry({ cardInfo }) {
+  const { displayCollection } = useContext(StateContext);
+
   function handleAddCard(event) {
     event.preventDefault();
     let imageURL = cardInfo.imageUrl.replace(/(:)/gi, '123abc').replace(/(\/)/gi, '234bcd').replace(/(\.)/gi, '345cde').replace(/(\?)/gi, '456def').replace(/(=)/gi, '567efg').replace(/(&)/gi, '678fgh');
@@ -36,7 +39,7 @@ export default function CardEntry({ cardInfo, button }) {
   }
 
   let addDeleteButton = <Add onClick={handleAddCard}>Add to Collection</Add>;
-    if (button) {
+    if (displayCollection) {
       addDeleteButton = <Delete onClick={handleDeleteCard}>Delete from Collection</Delete>;
     }
 
