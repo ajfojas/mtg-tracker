@@ -1,62 +1,21 @@
-import React, { createContext, useState } from  'react';
-import axios from 'axios';
-import $ from 'jquery';
+import React, { createContext, useReducer } from  'react';
+import { appReducer } from '../reducers/appReducer.js';
 
 export const StateContext = createContext();
 
 export default function StateContextProvider(props) {
-  const [recentlySearched, setRecentlySearched] = useState([]);
-  const [collection, setCollection] = useState([]);
-  const [displayCollection, setDisplayCollection] = useState(false);
+  const initialState = {
+    recentlySearched: [],
+    collection: [],
+    displayCollection: false
+  };
 
-  function handleSearchCard(event) {
-    event.preventDefault();
-    let searchTerm = $('#card-search').val();
-    $('#card-search').val('');
-    if (searchTerm.length === 0) {
-      return;
-    }
-    $('#status').text('Loading...');
-
-    axios.get(`/api/cards/${searchTerm}`)
-      .then(cards => {
-        $('#status').text('');
-        let filteredCards = cards.data.filter(card => card.imageUrl);
-        setRecentlySearched(filteredCards);
-        setDisplayCollection(false);
-      })
-      .catch(error => {
-        $('#status').text('');
-        console.log(error);
-      });
-  }
-
-  function handleViewCollection(event) {
-    event.preventDefault();
-    axios.get('/api/collection')
-      .then(cards => {
-        setCollection(cards.data.rows);
-        setDisplayCollection(true);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-
-  function handleDeleteCollection(event) {
-    event.preventDefault();
-    axios.delete('/api/collection')
-      .then(results => {
-        setCollection(results.data.rows);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
+  const [ state, dispatch ] = useReducer(appReducer, initialState);
+  const { recentlySearched, collection, displayCollection } = state;
 
   return (
-    <StateContext.Provider value={{recentlySearched, collection, displayCollection, handleSearchCard, handleViewCollection, handleDeleteCollection}}>
+    <StateContext.Provider value={{recentlySearched, collection, displayCollection, dispatch}}>
       {props.children}
     </StateContext.Provider>
-  )
-}
+  );
+};

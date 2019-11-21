@@ -4,7 +4,7 @@ import { StateContext } from './contexts/StateContext.jsx';
 
 export default function CardList() {
   const { recentlySearched, collection, displayCollection } = useContext(StateContext);
-
+  
   let cardList = recentlySearched;
   if (displayCollection) {
     cardList = collection;

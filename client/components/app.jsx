@@ -6,7 +6,6 @@ import DeleteCollectionBtn from './DeleteCollectionBtn.jsx';
 import StateContextProvider from './contexts/StateContext.jsx';
 
 export default function App() {
-
   return (
     <div>
       <StateContextProvider>
@@ -19,5 +18,5 @@ export default function App() {
         <CardList />
       </StateContextProvider>
     </div>
-  )
-}
+  );
+};
