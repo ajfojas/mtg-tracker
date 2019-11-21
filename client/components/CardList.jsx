@@ -1,43 +1,42 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import CardEntry from './CardEntry.jsx';
-import styled from 'styled-components';
+import { StateContext } from './contexts/StateContext.jsx';
 
-class CardList extends React.Component {
-  constructor(props) {
-    super(props);
+export default function CardList() {
+  const { recentlySearched, collection, displayCollection } = useContext(StateContext);
+  
+  let cardList = recentlySearched;
+  if (displayCollection) {
+    cardList = collection;
   }
 
-  render() {
-    if (this.props.cardList.length === 0) {
-      let text = 'No Results';
-      if (this.props.cardList === this.props.state.collection) {
-        text = 'Collection is Empty'
-      }
-      return (
-        <div>{text}</div>
-      )
+  if (cardList.length === 0) {
+    let text = 'No Results';
+    if (displayCollection) {
+      text = 'Collection is Empty'
     }
-
-    let cardList = this.props.cardList.sort((a, b) => {
-      let nameA = a.name.toUpperCase();
-      let nameB = b.name.toUpperCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
-
     return (
-      <div>
-        {cardList.map(card => {
-          return <CardEntry key={card.id} cardInfo={card} button={this.props.state.viewCollection} />
-        })}
-      </div>
+      <div>{text}</div>
     )
   }
-}
 
-export default CardList;
+  let list = cardList.sort((a, b) => {
+    let nameA = a.name.toUpperCase();
+    let nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+
+  return (
+    <div>
+      {list.map((card, index) => {
+        return <CardEntry key={index} cardInfo={card} />
+      })}
+    </div>
+  )
+}
