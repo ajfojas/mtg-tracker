@@ -30,5 +30,22 @@ export default function DeleteCollectionBtn() {
 // Styles
 const Delete = styled.button`
   display: inline-block;
-  border-color: red;
+  border: 1px solid #dc3545;
+  width: 135px;
+  height: 30px;
+  background: #222;
+  font-size: 16px;
+  color: #dc3545;
+  padding: 5px 0;
+  margin: 5px;
+  &:hover {
+    border: 1px solid #950412;
+    background: #dc3545;
+    color: white;
+  }
+  &:active {
+    border: 1px solid #dc3545;
+    background: #950412;
+    color: white;
+  }
 `;
