@@ -16,6 +16,7 @@ export default function App() {
         {' '}
         <DeleteCollectionBtn />
         {' '}
+        <span id="status"></span>
         <CardList />
       </StateContextProvider>
     </div>
