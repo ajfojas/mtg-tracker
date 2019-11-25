@@ -10,7 +10,6 @@ export default function Search() {
   function handleSearchCard(event) {
     event.preventDefault();
     let searchTerm = $('#card-search').val();
-    $('#card-search').val('');
     if (searchTerm.length === 0) {
       return;
     }
@@ -36,7 +35,7 @@ export default function Search() {
     <div>
       <Form onSubmit={handleSearchCard}>
         <i className="fas fa-search fa-lg"></i>
-        <Input type="search" id="card-search" placeholder="Search for cards..." />
+        <Input type="search" id="card-search" placeholder="Search for cards..." onFocus={() => $('#card-search').val('')} />
       </Form>
       <Go onClick={handleSearchCard}>Go</Go>
       {' '}
