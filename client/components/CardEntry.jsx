@@ -28,7 +28,8 @@ export default function CardEntry({ cardInfo }) {
     event.preventDefault();
     axios.delete(`/api/collection/${cardInfo.primaryID}`)
       .then(() => {
-        $('#status').text(`Deleted ${cardInfo.name}`);
+        let cardName = cardInfo.name.replace(/(123abc)/gi, '\'')
+        $('#status').text(`Deleted ${cardName}`);
         setTimeout(() => {
           $('#status').text('');
         }, 3000);
@@ -50,7 +51,7 @@ export default function CardEntry({ cardInfo }) {
         <Image src={imageURL}></Image>
         {addDeleteButton}
       </Div>
-    )
+    );
 }
 
 // Styles
