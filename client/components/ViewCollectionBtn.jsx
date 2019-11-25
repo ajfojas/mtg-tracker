@@ -29,5 +29,22 @@ export default function ViewCollectionBtn() {
 // Styles
 const View = styled.button`
   display: inline-block;
-  border-color: blue;
+  border: 1px solid #17a2b8;
+  width: 135px;
+  height: 30px;
+  background: #222;
+  font-size: 16px;
+  color: #17a2b8;
+  padding: 5px 0;
+  margin: 5px 5px 5px 20px;
+  &:hover {
+    border: 1px solid #026877;
+    background: #17a2b8;
+    color: white;
+  }
+  &:active {
+    border: 1px solid #17a2b8;
+    background: #026877;
+    color: white;
+  }
 `;
