@@ -59,19 +59,50 @@ const Div = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   width: 240px;
-  padding: 5px;
+  padding: 10px;
 `;
 
 const Image = styled.img`
   height: 300px;
+  border-radius: 4.5%;
 `;
 
 const Add = styled.button`
-  width: 215px;
-  border-color: blue;
+  width: 216px;
+  height: 30px;
+  border: 1px solid #17a2b8;
+  background: #222;
+  font-size: 16px;
+  color: #17a2b8;
+  padding: 5px 0;
+  &:hover {
+    border: 1px solid #026877;
+    background: #17a2b8;
+    color: white;
+  }
+  &:active {
+    border: 1px solid #17a2b8;
+    background: #026877;
+    color: white;
+  }
 `;
 
 const Delete = styled.button`
-  width: 215px;
-  border-color: red;
+  width: 216px;
+  height: 30px;
+  border: 1px solid #dc3545;
+  background: #222;
+  font-size: 16px;
+  color: #dc3545;
+  padding: 5px 0;
+  &:hover {
+    border: 1px solid #950412;
+    background: #dc3545;
+    color: white;
+  }
+  &:active {
+    border: 1px solid #dc3545;
+    background: #950412;
+    color: white;
+  }
 `;

@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import CardEntry from './CardEntry.jsx';
 import { StateContext } from './contexts/StateContext.jsx';
+import $ from 'jquery';
+import styled from 'styled-components';
 
 export default function CardList() {
   const { recentlySearched, collection, displayCollection } = useContext(StateContext);
@@ -16,7 +18,7 @@ export default function CardList() {
       text = 'Collection is Empty'
     }
     return (
-      <div>{text}</div>
+      <List>{text}</List>
     )
   }
 
@@ -32,11 +34,36 @@ export default function CardList() {
     return 0;
   });
 
+  let searchTerm = (<SearchTerm>{$('#card-search').val()}</SearchTerm>)
+  let cardGrammar1 = cardList.length === 1 ? 'card includes' : 'cards include';
+  let cardGrammar2 = cardList.length === 1 ? 'its' : 'their';
+
   return (
     <div>
-      {list.map((card, index) => {
-        return <CardEntry key={index} cardInfo={card} />
-      })}
+      <Status>{cardList.length + ' ' + cardGrammar1} "{searchTerm}" in {cardGrammar2} name</Status>
+      <List>
+        {list.map((card, index) => {
+          return <CardEntry key={index} cardInfo={card} />
+        })}
+      </List>
     </div>
   )
 }
+
+// Styles
+const Status = styled.div`
+  margin-left: 20px;
+`;
+
+let SearchTerm = styled.span`
+  color: #c1a3eb;
+  font-weight: bold;
+`;
+
+const List = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+`;
