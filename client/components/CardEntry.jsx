@@ -59,7 +59,7 @@ const Div = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   width: 240px;
-  padding: 5px;
+  padding: 10px;
 `;
 
 const Image = styled.img`
