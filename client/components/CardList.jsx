@@ -19,7 +19,7 @@ export default function CardList() {
     }
     return (
       <List>{text}</List>
-    )
+    );
   }
 
   let list = cardList.sort((a, b) => {
@@ -47,7 +47,7 @@ export default function CardList() {
         })}
       </List>
     </div>
-  )
+  );
 }
 
 // Styles
@@ -55,7 +55,7 @@ const Status = styled.div`
   margin-left: 20px;
 `;
 
-let SearchTerm = styled.span`
+const SearchTerm = styled.span`
   color: #c1a3eb;
   font-weight: bold;
 `;
