@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 export default function CardList() {
   const { recentlySearched, collection, displayCollection } = useContext(StateContext);
+
+  let searchTerm = (<SearchTerm>{$('#card-search').val()}</SearchTerm>)
   
   let cardList = recentlySearched;
   if (displayCollection) {
@@ -13,13 +15,15 @@ export default function CardList() {
   }
 
   if (cardList.length === 0) {
-    let text = 'No Results';
-    if (displayCollection) {
-      text = 'Collection is Empty'
+    let text = 'No results';
+    if ($('#card-search').val() && !displayCollection) {
+      return <List>No results for "{searchTerm}"</List>
+    } else if (displayCollection) {
+      text = 'Your collection is empty';
     }
     return (
       <List>{text}</List>
-    )
+    );
   }
 
   let list = cardList.sort((a, b) => {
@@ -34,20 +38,24 @@ export default function CardList() {
     return 0;
   });
 
-  let searchTerm = (<SearchTerm>{$('#card-search').val()}</SearchTerm>)
   let cardGrammar1 = cardList.length === 1 ? 'card includes' : 'cards include';
   let cardGrammar2 = cardList.length === 1 ? 'its' : 'their';
+  let status = <Status>{cardList.length + ' ' + cardGrammar1} "{searchTerm}" in {cardGrammar2} name</Status>;
+  if(displayCollection) {
+    let cardGrammar = cardList.length === 1 ? 'card' : 'cards';
+    status = <Status>{cardList.length + ' ' + cardGrammar} in your collection</Status>;
+  }
 
   return (
     <div>
-      <Status>{cardList.length + ' ' + cardGrammar1} "{searchTerm}" in {cardGrammar2} name</Status>
+      {status}
       <List>
         {list.map((card, index) => {
           return <CardEntry key={index} cardInfo={card} />
         })}
       </List>
     </div>
-  )
+  );
 }
 
 // Styles
@@ -55,7 +63,7 @@ const Status = styled.div`
   margin-left: 20px;
 `;
 
-let SearchTerm = styled.span`
+const SearchTerm = styled.span`
   color: #c1a3eb;
   font-weight: bold;
 `;
