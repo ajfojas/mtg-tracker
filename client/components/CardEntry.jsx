@@ -5,7 +5,7 @@ import $ from 'jquery';
 import { StateContext } from './contexts/StateContext.jsx';
 
 export default function CardEntry({ cardInfo }) {
-  const { displayCollection } = useContext(StateContext);
+  const { displayCollection, dispatch } = useContext(StateContext);
 
   function handleAddCard(event) {
     event.preventDefault();
@@ -33,6 +33,19 @@ export default function CardEntry({ cardInfo }) {
         setTimeout(() => {
           $('#status').text('');
         }, 3000);
+      })
+      .then(() => {
+        axios.get('/api/collection')
+          .then(cards => {
+            let newState = {
+              collection: cards.data.rows,
+              displayCollection: true,
+            };
+            dispatch({type: 'VIEW_COLLECTION', newState});
+          })
+          .catch(error => {
+            console.log(error);
+          })
       })
       .catch(error => {
         console.log(error);
