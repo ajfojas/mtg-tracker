@@ -66,6 +66,7 @@ const Div = styled.div`
 const Image = styled.img`
   height: 300px;
   border-radius: 4.5%;
+  padding-bottom: 5px;
 `;
 
 const Add = styled.button`
