@@ -5,7 +5,7 @@ import $ from 'jquery';
 import { StateContext } from './contexts/StateContext.jsx';
 
 export default function CardEntry({ cardInfo }) {
-  const { displayCollection } = useContext(StateContext);
+  const { displayCollection, dispatch } = useContext(StateContext);
 
   function handleAddCard(event) {
     event.preventDefault();
@@ -24,24 +24,37 @@ export default function CardEntry({ cardInfo }) {
       })
   }
 
-  function handleDeleteCard(event) {
+  function handleRemoveCard(event) {
     event.preventDefault();
     axios.delete(`/api/collection/${cardInfo.primaryID}`)
       .then(() => {
         let cardName = cardInfo.name.replace(/(123abc)/gi, '\'')
-        $('#status').text(`Deleted ${cardName}`);
+        $('#status').text(`Removed ${cardName}`);
         setTimeout(() => {
           $('#status').text('');
         }, 3000);
+      })
+      .then(() => {
+        axios.get('/api/collection')
+          .then(cards => {
+            let newState = {
+              collection: cards.data.rows,
+              displayCollection: true,
+            };
+            dispatch({type: 'VIEW_COLLECTION', newState});
+          })
+          .catch(error => {
+            console.log(error);
+          })
       })
       .catch(error => {
         console.log(error);
       })
   }
 
-  let addDeleteButton = <Add onClick={handleAddCard}>Add to Collection</Add>;
+  let addRemoveButton = <Add onClick={handleAddCard}>Add to Collection</Add>;
     if (displayCollection) {
-      addDeleteButton = <Delete onClick={handleDeleteCard}>Delete from Collection</Delete>;
+      addRemoveButton = <Remove onClick={handleRemoveCard}>Remove from Collection</Remove>;
     }
 
     let imageURL = cardInfo.imageUrl.replace(/(123abc)/gi, ':').replace(/(234bcd)/gi, '/').replace(/(345cde)/gi, '.').replace(/(456def)/gi, '?').replace(/(567efg)/gi, '=').replace(/(678fgh)/gi, '&');
@@ -49,7 +62,7 @@ export default function CardEntry({ cardInfo }) {
     return (
       <Div>
         <Image src={imageURL}></Image>
-        {addDeleteButton}
+        {addRemoveButton}
       </Div>
     );
 }
@@ -89,7 +102,7 @@ const Add = styled.button`
   }
 `;
 
-const Delete = styled.button`
+const Remove = styled.button`
   width: 216px;
   height: 30px;
   border: 1px solid #dc3545;
