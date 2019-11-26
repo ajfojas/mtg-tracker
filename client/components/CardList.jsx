@@ -7,7 +7,7 @@ import styled from 'styled-components';
 export default function CardList() {
   const { recentlySearched, collection, displayCollection } = useContext(StateContext);
 
-  let searchTerm = (<SearchTerm>{$('#card-search').val()}</SearchTerm>)
+  let searchTerm = (<SearchTerm>{$('#card-search').val()}</SearchTerm>);
   
   let cardList = recentlySearched;
   if (displayCollection) {
