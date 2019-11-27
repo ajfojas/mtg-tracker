@@ -1,6 +1,6 @@
 # Pack Rat - Magic: The Gathering Card Collection Tracker
 
-Collection tracker web app for Magic: the Gathering cards. Built with React, Express, and PostgreSQL.
+Collection tracker web application for Magic: The Gathering cards. Built with React, Express, and PostgreSQL.
 
 > [Interactive Demo](http://ec2-52-53-151-166.us-west-1.compute.amazonaws.com:3000/)
 
